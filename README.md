@@ -7,7 +7,8 @@ Submit a website for analysis and receive actionable findings without manually r
 
 ## Demo
 
-*Add your workflow demo video or screenshots here.*
+![Screenshot](Demo/screenshot.jpeg)
+
 
 ## Features
 
