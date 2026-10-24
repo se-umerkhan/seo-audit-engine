@@ -16,7 +16,8 @@ SEO Audit Engine automates website content extraction, SEO analysis, and email-b
 ### 1. Import the Workflow
 
 1. Open your n8n instance.
-2. Import `Workflow/SEO_Audit_Engine.json`.
+2. Import [`Workflow/SEO_Audit_Engine.json`](./Workflow/SEO_Audit_Engine.json)
+
 3. Review the workflow nodes and connections.
 
 ### 2. Configure Credentials
