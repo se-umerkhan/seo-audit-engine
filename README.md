@@ -38,7 +38,7 @@ Website Input → n8n → Web Scraping → SEO Analysis → Report Generation �
 
 ## Getting Started
 
-1. Import `Workflow/SEO_Audit_Engine.json` into your n8n instance.
+1. Import [`Workflow/SEO_Audit_Engine.json`](./Workflow/SEO_Audit_Engine.json) into your n8n instance.
 2. Configure the credentials required by the workflow.
 3. Set up the website input and email recipient.
 4. Configure any required scraping or AI services.
