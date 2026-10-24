@@ -1,0 +1,151 @@
+
+{
+  "name": "SEO Audit Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "SEO Audit Engine",
+        "formDescription": "Analyze your website and receive SEO improvement recommendations by email.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Website URL",
+              "placeholder": "https://example.com",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8aca34c2-65d6-432a-a7a5-fede59c3f4cb",
+      "name": "Website URL",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        368,
+        240
+      ],
+      "webhookId": "REPLACE_WITH_NEW_WEBHOOK_ID",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['Website URL'] }}",
+        "options": {}
+      },
+      "id": "61e17805-93aa-46a3-a5a1-36c02da6432a",
+      "name": "Scrape Website",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        576,
+        240
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional SEO analyst who evaluates website content and provides specific, actionable SEO improvement recommendations.\n\nGOAL\nAnalyze the supplied website content and identify opportunities to improve on-page SEO, content quality, search relevance, and page structure. Base your findings on the available content and do not claim to have checked technical factors that are not present in the supplied data.\n\nREPORT STRUCTURE\n1. SEO Overview: Summarize the apparent strengths and weaknesses.\n2. Key Findings: Identify specific issues supported by the extracted content.\n3. Recommendations: Provide prioritized, practical improvements with examples where possible.\n4. Limitations: Clearly identify information that could not be verified from the available content.\n\nANALYSIS CRITERIA\nBe direct, specific, and useful. Avoid generic recommendations. Reference the supplied website content when explaining each finding. Distinguish observed issues from assumptions, and prioritize changes by likely impact and implementation effort. Do not invent rankings, traffic statistics, metadata, or technical test results.\n\nHere is the extracted website content:\n{{ $json.data }}",
+        "options": {}
+      },
+      "id": "cbe8bed2-37a0-4459-a34c-47b87c012875",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        800,
+        240
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        448
+      ],
+      "id": "982bfb7c-dd13-4e59-b451-b8d732ab3dec",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "sendTo": "REPLACE_WITH_RECIPIENT_EMAIL",
+        "subject": "=SEO Audit Report",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1168,
+        240
+      ],
+      "id": "5fd3d718-2ef9-447d-87b6-e2b2a8677df3",
+      "name": "Send Audit Report",
+      "credentials": {}
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Scrape Website": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Website URL": {
+      "main": [
+        [
+          {
+            "node": "Scrape Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send Audit Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "7137eb10-ee7f-406d-95d4-806a4009d870",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "nodeGroups": [],
+  "tags": []
+}
